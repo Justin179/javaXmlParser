@@ -22,29 +22,32 @@ public class MyDomParser {
 		
 		try {
 			DocumentBuilder docBuilder = factory.newDocumentBuilder();
-			Document doc = docBuilder.parse("people.xml");
+			Document doc = docBuilder.parse("TIDE_P_02_0306010_cwbrain.xml");
 			
-			NodeList nodes = doc.getElementsByTagName("person");
+			NodeList locationList = doc.getElementsByTagName("location");
 
-			
-			for(int i = 0; i<nodes.getLength(); i++){
-				Node node = nodes.item(i);
+
+			for(int i = 0; i<locationList.getLength(); i++){
+				
+				// 取  <locationName>淡海</locationName>
+				// 	 <stationId>11006</stationId>
+	
+				Node node = locationList.item(i);
 				if(node.getNodeType()==Node.ELEMENT_NODE){ // element node, text node...
-					Element person = (Element) node; 
-					
-					NodeList names = person.getChildNodes();
-					for(int j = 0; j<names.getLength(); j++){
-						Node n = names.item(j);
+					Element location = (Element) node; 
+					NodeList details = location.getChildNodes();
+					for(int j = 0; j<details.getLength(); j++){ // locationName, stationId, time, time, time ...
+						Node n = details.item(j);
 						if(n.getNodeType() == Node.ELEMENT_NODE){
-							Element name = (Element) n;
-							System.out.println(name.getTagName() + ":" +name.getTextContent());
+							Element subTags = (Element) n;
+							System.out.println(subTags.getTagName()); // locationName, stationId, time, time, time ...
+							
 						}
 					}
 					
-					
 				}
 				
-				
+				System.out.println("=============================");
 			}
 			
 
